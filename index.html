@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Financiamento Imobiliário</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+          <rect width="36" height="36" rx="8" fill="#2ecc71"/>
+          <path d="M18 6L5 16h4v14h18V16h4L18 6z" fill="#fff"/>
+          <rect x="14" y="22" width="8" height="8" rx="1" fill="#1a3a5c"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="header-title">Simulador de Financiamento Imobiliário</h1>
+        <p class="header-subtitle">Tabela Price · INCC + Taxa Fixa · Reforços periódicos e manuais</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-grid">
+
+    <!-- ===== PAINEL DE ENTRADAS ===== -->
+    <aside class="panel panel--inputs">
+
+      <!-- Dados Básicos -->
+      <section class="form-section">
+        <h2 class="section-title">Dados do Financiamento</h2>
+
+        <div class="input-group">
+          <label for="input-valor-imovel">Valor do Imóvel</label>
+          <div class="input-wrap">
+            <span class="input-prefix">R$</span>
+            <input type="number" id="input-valor-imovel" min="0" step="1000" placeholder="500.000">
+          </div>
+          <span class="field-error" id="err-input-valor-imovel"></span>
+        </div>
+
+        <div class="input-group">
+          <label for="input-entrada">Entrada</label>
+          <div class="input-wrap">
+            <span class="input-prefix">R$</span>
+            <input type="number" id="input-entrada" min="0" step="1000" placeholder="100.000">
+          </div>
+          <span class="field-error" id="err-input-entrada"></span>
+        </div>
+
+        <div class="input-group">
+          <label for="input-parcelas">Nº de Parcelas</label>
+          <div class="input-wrap">
+            <input type="number" id="input-parcelas" min="1" max="600" step="1" placeholder="240">
+            <span class="input-suffix">meses</span>
+          </div>
+          <span class="field-error" id="err-input-parcelas"></span>
+        </div>
+      </section>
+
+      <!-- Índices de Reajuste -->
+      <section class="form-section">
+        <h2 class="section-title">Índices de Reajuste</h2>
+
+        <div class="input-group">
+          <label for="input-taxa-incc">
+            Taxa INCC
+            <span class="label-hint">mensal</span>
+          </label>
+          <div class="input-wrap">
+            <input type="number" id="input-taxa-incc" min="0" step="0.001" placeholder="0,50">
+            <span class="input-suffix">% a.m.</span>
+          </div>
+          <span class="field-error" id="err-input-taxa-incc"></span>
+        </div>
+
+        <div class="input-group">
+          <label for="input-taxa-fixa">
+            Taxa Fixa
+            <span class="label-hint">mensal</span>
+          </label>
+          <div class="input-wrap">
+            <input type="number" id="input-taxa-fixa" min="0" step="0.001" placeholder="1,00">
+            <span class="input-suffix">% a.m.</span>
+          </div>
+          <span class="field-error" id="err-input-taxa-fixa"></span>
+        </div>
+
+        <div class="taxa-combinada-preview" id="taxa-combinada-preview" hidden>
+          Taxa combinada: <strong id="taxa-combinada-valor">—</strong>
+        </div>
+      </section>
+
+      <!-- Reforços Periódicos -->
+      <section class="form-section">
+        <div class="section-title-row">
+          <h2 class="section-title">Reforços Periódicos</h2>
+          <label class="toggle-switch" title="Ativar reforços periódicos">
+            <input type="checkbox" id="checkbox-reforcoPeriodico-ativo">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="reforco-periodico-fields" id="reforco-periodico-fields">
+          <div class="input-group input-group--inline">
+            <label for="input-reforcoPeriodico-intervalo">A cada</label>
+            <div class="input-wrap input-wrap--short">
+              <input type="number" id="input-reforcoPeriodico-intervalo" min="1" step="1" placeholder="6">
+              <span class="input-suffix">meses</span>
+            </div>
+            <span class="field-error" id="err-input-reforcoPeriodico-intervalo"></span>
+          </div>
+
+          <div class="input-group">
+            <label for="input-reforcoPeriodico-valor">Valor do Reforço</label>
+            <div class="input-wrap">
+              <span class="input-prefix" id="reforco-prefix">R$</span>
+              <input type="number" id="input-reforcoPeriodico-valor" min="0" step="100" placeholder="10.000">
+              <span class="field-error" id="err-input-reforcoPeriodico-valor"></span>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="select-reforcoPeriodico-tipo">Tipo do Valor</label>
+            <div class="input-wrap">
+              <select id="select-reforcoPeriodico-tipo">
+                <option value="fixo">R$ — Valor fixo</option>
+                <option value="percentual">% — Percentual do financiado</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reforços Manuais -->
+      <section class="form-section">
+        <div class="section-title-row">
+          <h2 class="section-title">Reforços Manuais</h2>
+          <button class="btn-add-reforco" id="btn-addReforco" title="Adicionar reforço manual">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Adicionar
+          </button>
+        </div>
+
+        <div class="reforco-manual-wrap" id="reforco-manual-wrap">
+          <table class="tbl-manual" id="tbl-reforcoManual">
+            <thead>
+              <tr>
+                <th>Mês</th>
+                <th>Valor (R$)</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tbody-reforcoManual">
+              <!-- Linhas adicionadas dinamicamente -->
+            </tbody>
+          </table>
+          <p class="empty-hint" id="reforco-manual-empty">Nenhum reforço manual adicionado.</p>
+        </div>
+      </section>
+
+      <button class="btn-calcular" id="btn-calcular">Calcular Simulação</button>
+
+    </aside>
+
+    <!-- ===== PAINEL DE RESULTADOS ===== -->
+    <div class="panel panel--results" id="results" hidden>
+
+      <!-- Cards de Resumo -->
+      <section class="section-results">
+        <h2 class="section-title">Resumo da Simulação</h2>
+        <div class="summary-cards" id="summary-cards">
+
+          <div class="card card--neutral" id="card-valor-imovel">
+            <span class="card__label">Total do Imóvel</span>
+            <span class="card__value">—</span>
+          </div>
+
+          <div class="card card--neutral" id="card-entrada">
+            <span class="card__label">Entrada</span>
+            <span class="card__value">—</span>
+          </div>
+
+          <div class="card card--neutral" id="card-valor-financiado">
+            <span class="card__label">Valor Financiado</span>
+            <span class="card__value">—</span>
+          </div>
+
+          <div class="card card--neutral" id="card-taxa-incc">
+            <span class="card__label">Taxa INCC (mensal)</span>
+            <span class="card__value">—</span>
+          </div>
+
+          <div class="card card--neutral" id="card-taxa-fixa">
+            <span class="card__label">Taxa Fixa (mensal)</span>
+            <span class="card__value">—</span>
+          </div>
+
+          <div class="card card--neutral" id="card-taxa-combinada">
+            <span class="card__label">Taxa Combinada (mensal)</span>
+            <span class="card__value">—</span>
+          </div>
+
+          <div class="card card--accent" id="card-primeira-parcela">
+            <span class="card__label">Primeira Parcela (PMT)</span>
+            <span class="card__value">—</span>
+          </div>
+
+          <div class="card card--accent" id="card-total-reforcos">
+            <span class="card__label">Total de Reforços</span>
+            <span class="card__value">—</span>
+          </div>
+
+          <div class="card card--accent" id="card-total-juros">
+            <span class="card__label">Total de Juros</span>
+            <span class="card__value">—</span>
+          </div>
+
+          <div class="card card--highlight" id="card-total-pagar">
+            <span class="card__label">Total a Pagar</span>
+            <span class="card__value">—</span>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Gráfico -->
+      <section class="section-results">
+        <h2 class="section-title">Evolução do Saldo Devedor</h2>
+        <div class="chart-wrapper">
+          <canvas id="chart-balance" aria-label="Evolução do Saldo Devedor ao longo dos meses"></canvas>
+        </div>
+      </section>
+
+      <!-- Tabela de Amortização -->
+      <section class="section-results">
+        <div class="table-header-row">
+          <h2 class="section-title">Tabela de Amortização</h2>
+          <div class="table-controls">
+            <span class="pagination-info" id="tbl-pagination-info"></span>
+            <button class="btn-page" id="btn-prev-page" title="Página anterior" disabled>&#8249;</button>
+            <button class="btn-page" id="btn-next-page" title="Próxima página">&#8250;</button>
+            <label class="page-size-label">
+              Por página:
+              <select id="sel-page-size">
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="9999">Todas</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="table-scroll">
+          <table id="tbl-amortizacao">
+            <thead>
+              <tr>
+                <th>Mês</th>
+                <th>Parcela (PMT)</th>
+                <th>Amortização</th>
+                <th>Juros</th>
+                <th>Reforço</th>
+                <th>Saldo Devedor</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-amortizacao"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </div><!-- /results -->
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Simulador Lex — Financiamento Imobiliário · Tabela Price com INCC + Taxa Fixa</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
