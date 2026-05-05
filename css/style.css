@@ -42,7 +42,7 @@ input, select, button { font: inherit; }
 
 /* ===== Header ===== */
 .site-header {
-  background: var(--color-primary);
+  background: #000000;
   color: #fff;
   padding: 1rem 2rem;
   position: sticky;
