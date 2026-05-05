@@ -205,6 +205,11 @@ input, select, button { font: inherit; }
   margin-top: 2px;
 }
 .field-error.visible { display: block; }
+.incc-fonte {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
 
 /* ===== Taxa Combinada Preview ===== */
 .taxa-combinada-preview {
