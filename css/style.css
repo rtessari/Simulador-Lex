@@ -42,7 +42,7 @@ input, select, button { font: inherit; }
 
 /* ===== Header ===== */
 .site-header {
-  background: var(--color-primary);
+  background: #000000;
   color: #fff;
   padding: 1rem 2rem;
   position: sticky;
@@ -493,7 +493,9 @@ input, select, button { font: inherit; }
 }
 #tbl-amortizacao tbody td:first-child { text-align: center; font-weight: 600; color: var(--color-primary); }
 #tbl-amortizacao tbody tr:nth-child(even) td { background: var(--color-row-alt); }
+#tbl-amortizacao tbody tr.row--obra td      { background: #eef4fb; }
 #tbl-amortizacao tbody tr.row--reforcado td { background: var(--color-row-reforcado); }
+#tbl-amortizacao tbody tr.row--obra.row--reforcado td { background: #dff0fb; }
 #tbl-amortizacao tbody tr:hover td {
   background: var(--color-primary-pale);
   transition: background 0.12s;
@@ -501,6 +503,17 @@ input, select, button { font: inherit; }
 #tbl-amortizacao tbody tr.row--reforcado td:nth-child(5) {
   color: var(--color-accent-dark);
   font-weight: 700;
+}
+/* Linha separadora entre fases */
+#tbl-amortizacao tbody tr.row--fase-separator td {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: center !important;
+  padding: 0.3rem 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 /* ===== Footer ===== */
