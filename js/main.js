@@ -258,7 +258,7 @@
       if (row.fase === 'entrega' && prevRow && prevRow.fase === 'obra') {
         var sep = document.createElement('tr');
         sep.classList.add('row--fase-separator');
-        sep.innerHTML = '<td colspan="6">&#8595; Entrega das Chaves — taxa fixa passa a incidir</td>';
+        sep.innerHTML = '<td colspan="6">&#8595; Término da Obra — taxa fixa passa a incidir</td>';
         fragment.appendChild(sep);
       }
 
