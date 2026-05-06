@@ -140,6 +140,7 @@
       inccPct:     parseFloatSafe(document.getElementById('input-taxa-incc').value),
       fixedPct:    parseFloatSafe(document.getElementById('input-taxa-fixa').value),
       n:           parseInt(document.getElementById('input-parcelas').value, 10) || 0,
+      nObra:       parseInt(document.getElementById('input-n-obra').value, 10) || 0,
       reforcoPeriodico: {
         ativo:     ativo,
         intervalo: parseInt(document.getElementById('input-reforcoPeriodico-intervalo').value, 10) || 0,
@@ -216,10 +217,23 @@
     setCard('card-taxa-incc',       fmtPct(s.inccPct, 4) + ' a.m.');
     setCard('card-taxa-fixa',       fmtPct(s.fixedPct, 4) + ' a.m.');
     setCard('card-taxa-combinada',  fmtPct(s.rCombined * 100, 4) + ' a.m.');
-    setCard('card-primeira-parcela',fmtBRL(s.firstPmt));
     setCard('card-total-reforcos',  fmtBRL(s.totalReforcoPago));
     setCard('card-total-juros',     fmtBRL(s.totalJuros));
     setCard('card-total-pagar',     fmtBRL(s.totalPaid + s.entrada));
+
+    var cardEntrega = document.getElementById('card-parcela-entrega');
+    var labelFirst  = document.getElementById('label-primeira-parcela');
+
+    if (s.nObra > 0) {
+      labelFirst.textContent = 'Parcela de Obra (fase 1)';
+      setCard('card-primeira-parcela', fmtBRL(s.pmtObra));
+      setCard('card-parcela-entrega',  fmtBRL(s.pmtEntrega));
+      cardEntrega.hidden = false;
+    } else {
+      labelFirst.textContent = 'Primeira Parcela (PMT)';
+      setCard('card-primeira-parcela', fmtBRL(s.firstPmt));
+      cardEntrega.hidden = true;
+    }
   }
 
   function setCard(id, value) {
@@ -238,8 +252,19 @@
 
     for (var i = start; i < end; i++) {
       var row = schedule[i];
+
+      // Linha separadora na transição obra → entrega
+      var prevRow = schedule[i - 1];
+      if (row.fase === 'entrega' && prevRow && prevRow.fase === 'obra') {
+        var sep = document.createElement('tr');
+        sep.classList.add('row--fase-separator');
+        sep.innerHTML = '<td colspan="6">&#8595; Entrega das Chaves — taxa fixa passa a incidir</td>';
+        fragment.appendChild(sep);
+      }
+
       var tr = document.createElement('tr');
-      if (row.reforcoAmount > 0) tr.classList.add('row--reforcado');
+      if (row.fase === 'obra')       tr.classList.add('row--obra');
+      if (row.reforcoAmount > 0)     tr.classList.add('row--reforcado');
 
       tr.innerHTML =
         '<td>' + row.month + '</td>' +

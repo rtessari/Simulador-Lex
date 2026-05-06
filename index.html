@@ -33,7 +33,7 @@
           <label for="input-valor-imovel">Valor do Imóvel</label>
           <div class="input-wrap">
             <span class="input-prefix">R$</span>
-            <input type="number" id="input-valor-imovel" min="0" step="1000" placeholder="500.000">
+            <input type="number" id="input-valor-imovel" min="0" step="1000">
           </div>
           <span class="field-error" id="err-input-valor-imovel"></span>
         </div>
@@ -42,18 +42,31 @@
           <label for="input-entrada">Entrada</label>
           <div class="input-wrap">
             <span class="input-prefix">R$</span>
-            <input type="number" id="input-entrada" min="0" step="1000" placeholder="100.000">
+            <input type="number" id="input-entrada" min="0" step="1000">
           </div>
           <span class="field-error" id="err-input-entrada"></span>
         </div>
 
         <div class="input-group">
-          <label for="input-parcelas">Nº de Parcelas</label>
+          <label for="input-parcelas">Nº de Parcelas (total)</label>
           <div class="input-wrap">
-            <input type="number" id="input-parcelas" min="1" max="600" step="1" placeholder="240">
+            <input type="number" id="input-parcelas" min="1" max="600" step="1">
             <span class="input-suffix">meses</span>
           </div>
           <span class="field-error" id="err-input-parcelas"></span>
+        </div>
+
+        <div class="input-group">
+          <label for="input-n-obra">
+            Parcelas de Obra
+            <span class="label-hint">só INCC</span>
+          </label>
+          <div class="input-wrap">
+            <input type="number" id="input-n-obra" min="0" step="1">
+            <span class="input-suffix">meses</span>
+          </div>
+          <span class="field-error" id="err-input-n-obra"></span>
+          <span class="incc-fonte">Meses até a entrega — corridos apenas pelo INCC. Após este período, aplica-se também a taxa fixa.</span>
         </div>
       </section>
 
@@ -67,7 +80,7 @@
             <span class="label-hint">mensal</span>
           </label>
           <div class="input-wrap">
-            <input type="number" id="input-taxa-incc" min="0" step="0.001" placeholder="0,50" value="1.04" title="INCC-M abril/2026 (FGV)">
+            <input type="number" id="input-taxa-incc" min="0" step="0.001" value="1.04" title="INCC-M abril/2026 (FGV)">
             <span class="input-suffix">% a.m.</span>
           </div>
           <span class="field-error" id="err-input-taxa-incc"></span>
@@ -80,7 +93,7 @@
             <span class="label-hint">mensal</span>
           </label>
           <div class="input-wrap">
-            <input type="number" id="input-taxa-fixa" min="0" step="0.001" placeholder="1,00">
+            <input type="number" id="input-taxa-fixa" min="0" step="0.001">
             <span class="input-suffix">% a.m.</span>
           </div>
           <span class="field-error" id="err-input-taxa-fixa"></span>
@@ -105,7 +118,7 @@
           <div class="input-group input-group--inline">
             <label for="input-reforcoPeriodico-intervalo">A cada</label>
             <div class="input-wrap input-wrap--short">
-              <input type="number" id="input-reforcoPeriodico-intervalo" min="1" step="1" placeholder="6">
+              <input type="number" id="input-reforcoPeriodico-intervalo" min="1" step="1">
               <span class="input-suffix">meses</span>
             </div>
             <span class="field-error" id="err-input-reforcoPeriodico-intervalo"></span>
@@ -115,7 +128,7 @@
             <label for="input-reforcoPeriodico-valor">Valor do Reforço</label>
             <div class="input-wrap">
               <span class="input-prefix" id="reforco-prefix">R$</span>
-              <input type="number" id="input-reforcoPeriodico-valor" min="0" step="100" placeholder="10.000">
+              <input type="number" id="input-reforcoPeriodico-valor" min="0" step="100">
               <span class="field-error" id="err-input-reforcoPeriodico-valor"></span>
             </div>
           </div>
@@ -204,7 +217,12 @@
           </div>
 
           <div class="card card--accent" id="card-primeira-parcela">
-            <span class="card__label">Primeira Parcela (PMT)</span>
+            <span class="card__label" id="label-primeira-parcela">Primeira Parcela (PMT)</span>
+            <span class="card__value">—</span>
+          </div>
+
+          <div class="card card--accent" id="card-parcela-entrega" hidden>
+            <span class="card__label">Parcela pós-Entrega</span>
             <span class="card__value">—</span>
           </div>
 
