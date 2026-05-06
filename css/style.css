@@ -6,9 +6,9 @@
   --color-primary:       #1a3a5c;
   --color-primary-light: #2a5080;
   --color-primary-pale:  #e8f0fa;
-  --color-accent:        #2ecc71;
-  --color-accent-dark:   #27ae60;
-  --color-accent-pale:   #eafaf1;
+  --color-accent:        #D45211;
+  --color-accent-dark:   #b34610;
+  --color-accent-pale:   #fdf0e8;
   --color-highlight:     #f39c12;
   --color-highlight-pale:#fef9ec;
   --color-bg:            #f0f4f9;
@@ -25,7 +25,7 @@
   --radius-md:   10px;
   --radius-lg:   14px;
   --shadow-card: 0 2px 14px rgba(26, 58, 92, 0.09);
-  --shadow-btn:  0 4px 12px rgba(46, 204, 113, 0.30);
+  --shadow-btn:  0 4px 12px rgba(212, 82, 17, 0.35);
   --transition:  0.2s ease;
 }
 
@@ -358,7 +358,7 @@ input, select, button { font: inherit; }
 }
 .btn-calcular:hover {
   background: var(--color-accent-dark);
-  box-shadow: 0 6px 18px rgba(46, 204, 113, 0.40);
+  box-shadow: 0 6px 18px rgba(212, 82, 17, 0.45);
   transform: translateY(-1px);
 }
 .btn-calcular:active { transform: translateY(0); }
