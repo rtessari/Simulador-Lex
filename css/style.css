@@ -222,6 +222,47 @@ input, select, button { font: inherit; }
 }
 .taxa-combinada-preview strong { font-weight: 700; }
 
+/* ===== Sistema de Amortização Toggle ===== */
+.sistema-toggle {
+  display: flex;
+  gap: 0;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.sistema-option {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 0.5rem 0.5rem;
+  cursor: pointer;
+  background: #fff;
+  transition: background var(--transition), color var(--transition);
+  border-right: 1px solid var(--color-border);
+  text-align: center;
+}
+.sistema-option:last-child { border-right: none; }
+.sistema-option input[type="radio"] { display: none; }
+.sistema-option span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  transition: color var(--transition);
+}
+.sistema-option small {
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+}
+.sistema-option:has(input:checked) {
+  background: var(--color-primary);
+}
+.sistema-option:has(input:checked) span,
+.sistema-option:has(input:checked) small {
+  color: #fff;
+}
+
 /* ===== Toggle Switch ===== */
 .toggle-switch {
   position: relative;

@@ -141,6 +141,7 @@
       fixedPct:    parseFloatSafe(document.getElementById('input-taxa-fixa').value),
       n:           parseInt(document.getElementById('input-parcelas').value, 10) || 0,
       nObra:       parseInt(document.getElementById('input-n-obra').value, 10) || 0,
+      sistema:     document.querySelector('input[name="sistema"]:checked').value,
       reforcoPeriodico: {
         ativo:     ativo,
         intervalo: parseInt(document.getElementById('input-reforcoPeriodico-intervalo').value, 10) || 0,
@@ -221,18 +222,29 @@
     setCard('card-total-juros',     fmtBRL(s.totalJuros));
     setCard('card-total-pagar',     fmtBRL(s.totalPaid + s.entrada));
 
-    var cardEntrega = document.getElementById('card-parcela-entrega');
-    var labelFirst  = document.getElementById('label-primeira-parcela');
+    var cardEntrega  = document.getElementById('card-parcela-entrega');
+    var cardUltima   = document.getElementById('card-ultima-parcela');
+    var labelFirst   = document.getElementById('label-primeira-parcela');
+    var isSac        = s.sistema === 'sac';
 
+    // Label e valor da primeira parcela
     if (s.nObra > 0) {
-      labelFirst.textContent = 'Parcela de Obra (fase 1)';
+      labelFirst.textContent = isSac ? '1ª Parcela de Obra (SAC)' : 'Parcela de Obra (fase 1)';
       setCard('card-primeira-parcela', fmtBRL(s.pmtObra));
       setCard('card-parcela-entrega',  fmtBRL(s.pmtEntrega));
       cardEntrega.hidden = false;
     } else {
-      labelFirst.textContent = 'Primeira Parcela (PMT)';
+      labelFirst.textContent = isSac ? '1ª Parcela (SAC)' : 'Primeira Parcela (PMT)';
       setCard('card-primeira-parcela', fmtBRL(s.firstPmt));
       cardEntrega.hidden = true;
+    }
+
+    // Última parcela — só relevante para SAC
+    if (isSac) {
+      setCard('card-ultima-parcela', fmtBRL(s.lastPmt));
+      cardUltima.hidden = false;
+    } else {
+      cardUltima.hidden = true;
     }
   }
 
