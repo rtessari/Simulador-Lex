@@ -57,6 +57,22 @@
         </div>
 
         <div class="input-group">
+          <label>Sistema de Amortização</label>
+          <div class="sistema-toggle">
+            <label class="sistema-option">
+              <input type="radio" name="sistema" value="price" checked>
+              <span>Tabela Price</span>
+              <small>Parcela fixa</small>
+            </label>
+            <label class="sistema-option">
+              <input type="radio" name="sistema" value="sac">
+              <span>SAC</span>
+              <small>Amortização constante</small>
+            </label>
+          </div>
+        </div>
+
+        <div class="input-group">
           <label for="input-n-obra">
             Parcelas de Obra
             <span class="label-hint">só INCC</span>
@@ -223,6 +239,11 @@
 
           <div class="card card--accent" id="card-parcela-entrega" hidden>
             <span class="card__label">Parcela pós-Entrega</span>
+            <span class="card__value">—</span>
+          </div>
+
+          <div class="card card--accent" id="card-ultima-parcela" hidden>
+            <span class="card__label">Última Parcela (SAC)</span>
             <span class="card__value">—</span>
           </div>
 
